@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 import userRoute from "./router/user.router.js"
 import authRoute from './router/auth.router.js'
 import conversationRoute from './router/conversation.router.js'
@@ -8,9 +9,11 @@ import gigRoute from './router/gig.router.js'
 import messageRoute from './router/message.router.js'
 import orderRoute from './router/order.router.js'
 import cookieParser from "cookie-parser";
+import cors from 'cors'
 
 
 const app = express()
+dotenv.config();
 
 mongoose.set('strictQuery', true)
 
@@ -24,8 +27,9 @@ const connect = async () => {
     }
      
 }
+ 
 
-
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
 app.use(cookieParser())
 app.use(express.urlencoded({extended: true}));
@@ -39,6 +43,12 @@ app.use("/api/conversations", conversationRoute);
 app.use("/api/messages", messageRoute);
 app.use("/api/reviews", reviewRoute);
 
+app.use((err, req, res, next) => {
+    const errorStatus = err.status || 500;
+    const errorMessage = err.message || "Something went wrong!";
+  
+    return res.status(errorStatus).send(errorMessage);
+  });
 
 app.listen(8800, () => {
     connect()
