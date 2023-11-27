@@ -38,6 +38,7 @@ export const getGig = async (req, res, next) => {
     next(err);
   }
 };
+
 export const getGigs = async (req, res, next) => {
   const q = req.query;
   const filters = {
