@@ -1,37 +1,22 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
-const OrderSchema = new Schema(
+const ReviewSchema = new Schema(
   {
     gigId: {
       type: String,
       required: true,
     },
-    img: {
-      type: String,
-      required: false,
-    },
-    title: {
+    userId: {
       type: String,
       required: true,
     },
-    price: {
+    star: {
       type: Number,
       required: true,
+      enum:[1,2,3,4,5]
     },
-    sellerId: {
-      type: String,
-      required: true,
-    },
-    buyerId: {
-      type: String,
-      required: true,
-    },
-    isCompleted: {
-      type: Boolean,
-      default: false,
-    },
-    payment_intent: {
+    desc: {
       type: String,
       required: true,
     },
@@ -41,4 +26,4 @@ const OrderSchema = new Schema(
   }
 );
 
-export default mongoose.model("Order", OrderSchema);
+export default mongoose.model("Review", ReviewSchema);
